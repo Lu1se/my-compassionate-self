@@ -20,7 +20,7 @@
         .chat {
             width: 90%;
             max-width: 375px;
-            height: 90%;
+            height: 90vh;
             max-height: 667px;
             border: solid 1px #EEE;
             display: flex;
@@ -33,7 +33,7 @@
         }
 
         .header {
-            height: 60px;
+            height: 70px;
             background-color: #f7f7f8;
             display: flex;
             flex-direction: column;
@@ -42,25 +42,17 @@
             color: black;
             font-size: 18px;
             border-bottom: 1px solid #ddd;
-            width: calc(100% - 20px);
-            padding: 0 10px;
-            border-top-left-radius: 50px;
-            border-top-right-radius: 50px;
-            border-bottom-left-radius: 50px;
-            border-bottom-right-radius: 50px;
-            position: relative;
+            width: 100%;
+            border-radius: 40px 40px 0 0;
         }
 
         .header .emoji {
             font-size: 35px;
-            position: relative;
-            top: 5px;
         }
 
         .header .contact-name {
             font-size: 12px;
             font-weight: normal;
-            position: relative;
         }
 
         .messages {
@@ -172,8 +164,7 @@
         .input-container {
             display: flex;
             padding: 10px;
-            width: calc(100% - 20px);
-            padding: 10px 10px 10px 10px;
+            width: 100%;
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
         }
@@ -201,6 +192,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        @media (min-height: 700px) {
+            .chat {
+                height: 80vh;
+                max-height: 90vh;
+            }
+
+            .header {
+                height: 60px;
+            }
         }
     </style>
 </head>
