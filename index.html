@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Messaging App</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f5;
+            height: 100vh;
+            margin: 0;
+            justify-content: center;
+        }
+
+        .chat {
+            width: 375px;
+            height: 667px;
+            border: solid 1px #EEE;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            border-radius: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            background-color: white;
+            position: relative;
+        }
+
+        .header {
+            height: 70px;
+            background-color: #f7f7f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-size: 18px;
+            border-bottom: 1px solid #ddd;
+            width: calc(100% - 20px); /* Subtract padding from width */
+            padding: 0 10px; /* Match chat container padding */
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+            position: relative;
+            
+        }
+
+        .header .emoji {
+            font-size: 35px;
+            position: relative;
+            top: 5px; /* Adjust this value to move the emoji lower */
+        }
+
+        .header .contact-name {
+            font-size: 12px;
+            font-weight: normal;
+            position: relative;
+        }
+
+        .messages {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .message-wrapper {
+            display: flex;
+            align-items: center;
+            margin: 5px 10px;
+        }
+
+        .message {
+            border-radius: 20px;
+            padding: 8px 15px;
+            display: inline-block;
+            max-width: 60%;
+            position: relative;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .yours {
+            justify-content: flex-start;
+        }
+
+        .yours .message {
+            background-color: #EEE;
+        }
+
+        .yours .message.last:before {
+            content: "";
+            position: absolute;
+            z-index: 0;
+            bottom: 0;
+            left: -7px;
+            height: 20px;
+            width: 20px;
+            background: #EEE;
+            border-bottom-right-radius: 15px;
+        }
+
+        .yours .message.last:after {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            bottom: 0;
+            left: -10px;
+            width: 10px;
+            height: 20px;
+            background: white;
+            border-bottom-right-radius: 10px;
+        }
+
+        .mine {
+            justify-content: flex-end;
+        }
+
+        .mine .message {
+            color: white;
+            background: rgb(0, 120, 254);
+        }
+
+        .mine .message.last:before {
+            content: "";
+            position: absolute;
+            z-index: 0;
+            bottom: 0;
+            right: -8px;
+            height: 20px;
+            width: 20px;
+            background: rgb(0, 120, 254);
+            border-bottom-left-radius: 15px;
+        }
+
+        .mine .message.last:after {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            bottom: 0;
+            right: -10px;
+            width: 10px;
+            height: 20px;
+            background: white;
+            border-bottom-left-radius: 10px;
+        }
+
+        .emoji-wrapper {
+            font-size: 15px;
+            z-index: 10;
+            transform: translateY(15px); /* Adjust this value to move the emoji lower */
+        }
+
+        .emoji-yours {
+            margin-right: 10px;
+        }
+
+        .emoji-mine {
+            margin-left: 10px;
+            order: 2; /* Ensure the emoji is placed after the message */
+        }
+
+        .input-container {
+            display: flex;
+            padding: 10px;
+            width: calc(100% - 20px); /* Subtract padding from width */
+            padding: 10px 10px 10px 10px; /* Adjust bottom padding to match left and right */
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            font-size: 16px;
+            margin-right: 10px; /* Add space between input and button */
+        }
+
+        .input-container button {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat">
+        <div class="header">
+            <span id="emoji" class="emoji">😬</span>
+            <span id="contact-name" class="contact-name">Anxious/Perfectionist</span>
+        </div>
+        <div class="messages" id="message-container">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="input-container">
+            <input type="text" id="message-input" placeholder="iMessage">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+    <script>
+        let isSender = false; // Start with 'yours' message (Gray, left-aligned)
+        const messageContainer = document.getElementById('message-container');
+        const messageInput = document.getElementById('message-input');
+        const emoji = document.getElementById('emoji');
+        const contactName = document.getElementById('contact-name');
+
+        function sendMessage() {
+            const messageText = messageInput.value;
+            if (messageText.trim() === '') return;
+
+            // Create a message element
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message ' + (isSender ? 'mine' : 'yours');
+            messageElement.textContent = messageText;
+
+            // Create an emoji element
+            const emojiElement = document.createElement('span');
+            emojiElement.className = 'emoji-wrapper ' + (isSender ? 'emoji-mine' : 'emoji-yours');
+            emojiElement.textContent = isSender ? '🧘' : '😬';
+
+            // Create a wrapper element for message and emoji
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = 'message-wrapper ' + (isSender ? 'mine' : 'yours');
+
+            // Append emoji and message to the wrapper
+            if (isSender) {
+                messageWrapper.appendChild(messageElement);
+                messageWrapper.appendChild(emojiElement);
+            } else {
+                messageWrapper.appendChild(emojiElement);
+                messageWrapper.appendChild(messageElement);
+            }
+
+            messageContainer.appendChild(messageWrapper);
+
+            // Check if it's the last message of this sender type and add the appropriate class
+            const messages = document.getElementsByClassName(isSender ? 'mine' : 'yours');
+            if (messages.length > 0) {
+                messages[messages.length - 1].classList.remove('last');
+            }
+            messageElement.classList.add('last');
+
+            // Clear input
+            messageInput.value = '';
+
+            // Toggle sender/recipient and icon
+            isSender = !isSender;
+            if (isSender) {
+                emoji.textContent = '🧘';
+                contactName.textContent = 'Compassionate Self';
+            } else {
+                emoji.textContent = '😬';
+                contactName.textContent = 'Anxious/Perfectionist';
+            }
+
+            // Scroll to the bottom
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+    </script>
+</body>
+</html>
