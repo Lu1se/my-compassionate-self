@@ -14,13 +14,13 @@
             height: 100vh;
             margin: 0;
             justify-content: center;
-            overflow: hidden;
+            overflow: hidden; /* Prevent scrolling on the main page */
         }
 
         .chat {
             width: 90%;
             max-width: 375px;
-            height: 90vh;
+            height: 90%;
             max-height: 667px;
             border: solid 1px #EEE;
             display: flex;
@@ -30,6 +30,7 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
             background-color: white;
             position: relative;
+            overflow: hidden; /* Ensure chat box does not overflow */
         }
 
         .header {
@@ -56,11 +57,11 @@
         }
 
         .messages {
+            flex: 1;
+            overflow-y: auto; /* Enable scrolling in the chat box */
             margin-top: 10px;
             display: flex;
             flex-direction: column;
-            flex: 1;
-            overflow-y: auto;
             padding-bottom: 20px;
         }
 
