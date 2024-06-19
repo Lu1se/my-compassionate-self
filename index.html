@@ -14,25 +14,26 @@
             height: 100vh;
             margin: 0;
             justify-content: center;
+            overflow: hidden;
         }
 
         .chat {
             width: 90%;
             max-width: 375px;
-            height: 90vh;
+            height: 90%;
+            max-height: 667px;
             border: solid 1px #EEE;
             display: flex;
             flex-direction: column;
             padding: 10px;
             border-radius: 40px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
             background-color: white;
             position: relative;
         }
 
         .header {
-            height: 70px;
+            height: 60px;
             background-color: #f7f7f8;
             display: flex;
             flex-direction: column;
@@ -41,20 +42,19 @@
             color: black;
             font-size: 18px;
             border-bottom: 1px solid #ddd;
-            width: calc(100% - 20px); /* Subtract padding from width */
-            padding: 0 10px; /* Match chat container padding */
+            width: calc(100% - 20px);
+            padding: 0 10px;
             border-top-left-radius: 50px;
             border-top-right-radius: 50px;
             border-bottom-left-radius: 50px;
             border-bottom-right-radius: 50px;
             position: relative;
-            
         }
 
         .header .emoji {
             font-size: 35px;
             position: relative;
-            top: 5px; /* Adjust this value to move the emoji lower */
+            top: 5px;
         }
 
         .header .contact-name {
@@ -64,7 +64,7 @@
         }
 
         .messages {
-            margin-top: 30px;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -82,7 +82,7 @@
             border-radius: 20px;
             padding: 8px 15px;
             display: inline-block;
-            max-width: 60%;
+            max-width: 70%;
             position: relative;
             word-wrap: break-word;
             white-space: pre-wrap;
@@ -157,7 +157,7 @@
         .emoji-wrapper {
             font-size: 15px;
             z-index: 10;
-            transform: translateY(15px); /* Adjust this value to move the emoji lower */
+            transform: translateY(15px);
         }
 
         .emoji-yours {
@@ -166,14 +166,14 @@
 
         .emoji-mine {
             margin-left: 10px;
-            order: 2; /* Ensure the emoji is placed after the message */
+            order: 2;
         }
 
         .input-container {
             display: flex;
             padding: 10px;
-            width: calc(100% - 20px); /* Subtract padding from width */
-            padding: 10px 10px 10px 10px; /* Adjust bottom padding to match left and right */
+            width: calc(100% - 20px);
+            padding: 10px 10px 10px 10px;
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
         }
@@ -185,7 +185,7 @@
             border-radius: 20px;
             outline: none;
             font-size: 16px;
-            margin-right: 10px; /* Add space between input and button */
+            margin-right: 10px;
         }
 
         .input-container button {
